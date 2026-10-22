@@ -70,7 +70,7 @@ f.addEventListener("submit",async e=>{
   e.preventDefault();
   go.disabled=true;out.textContent="Sending…";
   try{
-    const r=await fetch(f.action,{method:"POST",body:new FormData(f),headers:{Accept:"application/json"}});
+    const db=await claude.use("db");const d=Object.fromEntries(new FormData(f));delete d._gotcha;delete d._subject;d.at=Date.now();if(!db)throw 0;await db.doc("signups/"+d.at+"-"+Math.random().toString(36).slice(2,6)).set(d);const r={ok:true};
     if(r.ok){f.reset();syncSize();out.textContent="You’re in. We’ll message you if that role is already full. See you on the night.";}
     else{out.textContent="That didn’t send. Try again, or message us directly.";}
   }catch(err){out.textContent="That didn’t send. Check your connection and try again.";}
