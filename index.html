@@ -31,6 +31,12 @@ button:disabled{opacity:.5}
   <label class="l" for="name">Your name</label>
   <input type="text" id="name" name="name" maxlength="30" required autocomplete="off">
 
+  <label class="l" for="parent_phone">Parent or guardian phone number</label>
+  <input type="tel" id="parent_phone" name="parent_phone" required inputmode="tel" autocomplete="off" pattern="[0-9+()\s\-]{10,16}" title="Enter a phone number: 10 to 16 digits, spaces, dashes or a + sign" style="width:100%;box-sizing:border-box;font:inherit;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--fg)">
+
+  <label class="l" for="phone">Your phone number (optional)</label>
+  <input type="tel" id="phone" name="phone" inputmode="tel" autocomplete="tel" pattern="[0-9+()\s\-]{10,16}" title="Enter a phone number: 10 to 16 digits, spaces, dashes or a + sign" style="width:100%;box-sizing:border-box;font:inherit;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--fg)">
+
   <label class="l">Pick a role</label>
   <div class="roles">
     <label><input type="radio" name="role" value="Guard" required><b>Guard</b><span class="mut">Costume provided.</span></label>
@@ -39,7 +45,7 @@ button:disabled{opacity:.5}
 
   <div id="sizebox" hidden>
     <label class="l" for="size">T-shirt size (for the guard costume)</label>
-    <select id="size" name="size"><option>S</option><option selected>M</option><option>L</option><option>XL</option></select>
+    <select id="size" name="size" disabled><option value="" selected disabled>Choose a size</option><option>S</option><option>M</option><option>L</option><option>XL</option></select>
   </div>
 
   <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -52,15 +58,20 @@ button:disabled{opacity:.5}
 </main>
 <script>
 const f=document.getElementById("f"),out=document.getElementById("out"),go=document.getElementById("go");
-f.addEventListener("change",()=>{
-  document.getElementById("sizebox").hidden=f.role.value!=="Guard";
-});
+const sizeSel=document.getElementById("size");
+function syncSize(){
+  const g=f.role.value==="Guard";
+  document.getElementById("sizebox").hidden=!g;
+  sizeSel.disabled=!g;
+  sizeSel.required=g;
+}
+f.addEventListener("change",syncSize);
 f.addEventListener("submit",async e=>{
   e.preventDefault();
   go.disabled=true;out.textContent="Sending…";
   try{
     const r=await fetch(f.action,{method:"POST",body:new FormData(f),headers:{Accept:"application/json"}});
-    if(r.ok){f.reset();document.getElementById("sizebox").hidden=true;out.textContent="You’re in. We’ll message you if that role is already full. See you on the night.";}
+    if(r.ok){f.reset();syncSize();out.textContent="You’re in. We’ll message you if that role is already full. See you on the night.";}
     else{out.textContent="That didn’t send. Try again, or message us directly.";}
   }catch(err){out.textContent="That didn’t send. Check your connection and try again.";}
   go.disabled=false;
