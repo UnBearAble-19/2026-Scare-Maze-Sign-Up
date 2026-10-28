@@ -3,135 +3,226 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>2026 Scare Maze Sign-Up</title>
 <style>
-:root{--bg:#fff;--fg:#1c1b19;--mut:#6b6a66;--card:#f4f2ee;--line:#d9d6cf;--acc:#c2410c}
-@media (prefers-color-scheme:dark){:root{--bg:#17161a;--fg:#f1efe9;--mut:#a09e98;--card:#24222a;--line:#3a3842;--acc:#fb923c}}
-html{color-scheme:light dark}
-body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
-main{max-width:520px;margin:0 auto;padding:20px 16px 40px}
-h1{font-size:24px;margin:0 0 4px}p{margin:0 0 12px}.mut{color:var(--mut);font-size:14px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin:12px 0}
-label.l{display:block;font-size:14px;color:var(--mut);margin:10px 0 4px}
-input[type=text],input[type=tel]{width:100%;box-sizing:border-box;font:inherit;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--fg)}
-.role{border:2px solid var(--acc);border-radius:12px;padding:12px;background:var(--bg)}
-.role b{display:block;font-size:17px}
-button{width:100%;margin-top:14px;padding:12px;font:inherit;font-weight:600;border:0;border-radius:10px;background:var(--acc);color:#fff;cursor:pointer}
-button.ghost{background:transparent;color:var(--acc);border:2px solid var(--acc)}
-button:disabled{opacity:.5}
-#out{margin-top:12px;font-size:15px}
-.hp{position:absolute;left:-9999px}
+:root{
+  --bg:#0a0a0a; /* Deep black */
+  --fg:#ff6600; /* Bright orange */
+  --mut:#ff9933; /* Lighter orange for secondary text */
+  --card:#1a1a1a; /* Slightly lighter black for cards */
+  --line:#ff6600; /* Orange borders */
+  --acc:#ff3300; /* Brighter orange for buttons */
+  --web:#444444; /* Spider web color */
+}
+
+/* Spider web background pattern */
+body {
+  background:
+    radial-gradient(circle at 10% 10%, transparent 20%, var(--web) 20.5%, transparent 21%),
+    radial-gradient(circle at 90% 20%, transparent 15%, var(--web) 15.5%, transparent 16%),
+    radial-gradient(circle at 20% 80%, transparent 18%, var(--web) 18.5%, transparent 19%),
+    radial-gradient(circle at 80% 90%, transparent 12%, var(--web) 12.5%, transparent 13%),
+    var(--bg);
+  background-size: 100px 100px, 120px 120px, 150px 150px, 130px 130px;
+  margin: 0;
+  color: var(--fg);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+  min-height: 100vh;
+}
+
+main {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 20px 16px 40px;
+  position: relative;
+}
+
+h1 {
+  font-size: 28px;
+  margin: 0 0 4px;
+  text-align: center;
+  text-shadow: 0 0 5px var(--acc);
+}
+
+p {
+  margin: 0 0 12px;
+  text-align: center;
+}
+
+.mut {
+  color: var(--mut);
+  font-size: 14px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 18px;
+  margin: 12px 0;
+  box-shadow: 0 0 10px rgba(255, 102, 0, 0.2);
+}
+
+label.l {
+  display: block;
+  font-size: 14px;
+  color: var(--mut);
+  margin: 10px 0 4px;
+}
+
+input[type=text], input[type=tel] {
+  width: 100%;
+  box-sizing: border-box;
+  font: inherit;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.roles {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.roles label {
+  display: block;
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  padding: 12px;
+  background: var(--bg);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.roles label:hover {
+  border-color: var(--acc);
+  box-shadow: 0 0 5px rgba(255, 51, 0, 0.3);
+}
+
+.roles input {
+  position: absolute;
+  opacity: 0;
+}
+
+.roles label:has(input:checked) {
+  border-color: var(--acc);
+  background: rgba(255, 51, 0, 0.1);
+}
+
+.roles label:has(input:focus-visible) {
+  outline: 2px solid var(--acc);
+}
+
+.roles b {
+  display: block;
+  font-size: 15px;
+}
+
+button {
+  width: 100%;
+  margin-top: 14px;
+  padding: 12px;
+  font: inherit;
+  font-weight: 600;
+  border: 0;
+  border-radius: 10px;
+  background: var(--acc);
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+button:hover {
+  background: #ff4d00;
+  box-shadow: 0 0 10px rgba(255, 51, 0, 0.5);
+}
+
+button.ghost {
+  background: transparent;
+  color: var(--acc);
+  border: 2px solid var(--acc);
+}
+
+button.ghost:hover {
+  background: rgba(255, 51, 0, 0.1);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+#out {
+  margin-top: 12px;
+  font-size: 15px;
+  text-align: center;
+}
+
+.hp {
+  position: absolute;
+  left: -9999px;
+}
+
+/* cobweb corners for the card */
+.card::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid var(--web);
+  border-left: none;
+  border-bottom: none;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  right: -10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid var(--web);
+  border-right: none;
+  border-top: none;
+}
 </style></head>
 <body><main>
-<h1>2026 Scare Maze Sign-Up</h1>
-<p class="mut">At The Rectory · 31 October. Two spots only, first come, first served.</p>
+<h1>🕷️ 2026 Scare Maze Sign-Up 🕸️</h1>
+<p class="mut">Join us at 46 Butts Road, 5:00pm, 31 October. Two spots only - don't get caught in our web, sign up fast!</p>
 
-<form id="f" class="card" action="[formspree.io](https://formspree.io/f/xdeaqrwe)" method="POST">
+<form id="f" class="card" action="https://formspree.io/f/xdeaqrwe" method="POST">
   <label class="l" for="name">Your name</label>
   <input type="text" id="name" name="name" maxlength="30" required autocomplete="off">
 
   <label class="l" for="phone">Parent or guardian phone number</label>
   <input type="tel" id="phone" name="phone" required inputmode="tel" pattern="[0-9+()\s\-]{10,16}" title="Enter a phone number: 10 to 16 digits, spaces, dashes or a + sign">
 
-  <label class="l">Your role</label>
-  <div class="role"><b>Zombie</b><span class="mut">Bring your own costume.</span></div>
+  <label class="l">How would you like to haunt with us?</label>
+  <div class="roles">
+    <label><input type="radio" name="role" value="Setup and Scare" required><b>Help set up AND scare</b><span class="mut">Be a double-threat - build then terrify!</span></label>
+    <label><input type="radio" name="role" value="Scare only"><b>Just come to scare</b><span class="mut">Straight to the screaming, no heavy lifting.</span></label>
+  </div>
 
   <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
   <input type="hidden" name="_subject" value="Maze sign-up">
-  <input type="hidden" name="role" value="Zombie">
 
   <button type="submit" id="go">Sign me up</button>
   <button type="button" id="cancel" class="ghost" hidden>Give up my place</button>
   <div id="out" role="status"></div>
 </form>
 
-<p class="mut">Anyone can say "stop" at any time and be walked out.</p>
+<p class="mut">⚠️ Remember: Anyone can say "stop" at any time and be walked out. No hard feelings - we don't want any real scares! ⚠️</p>
 </main>
 
-<script src="[cdn.jsdelivr.net](https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2)"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const URL_="YOUR_PROJECT_URL";
 const KEY_="YOUR_ANON_KEY";
 const CAP=2;
 const T="2026 Scare Maze Sign-Up";
 const sb=supabase.createClient(URL_,KEY_);
-
-let device=localStorage.getItem("maze-device");
-if(!device){ device=crypto.randomUUID(); localStorage.setItem("maze-device",device); }
-
-const f=document.getElementById("f"),out=document.getElementById("out"),
-      go=document.getElementById("go"),cancelBtn=document.getElementById("cancel");
-
-async function getState(){
-  const {data,error}=await sb.from(T).select("name,device").eq("canceled",false);
-  if(error) throw error;
-  const mine=data.find(r=>r.device===device);
-  return { mine, count:data.length };
-}
-
-function paint({mine,count}){
-  if(mine){
-    go.hidden=true; cancelBtn.hidden=false;
-    localStorage.setItem("maze-name",mine.name);
-    out.textContent="You are in. Would you like to give up your place?";
-  } else if(localStorage.getItem("maze-canceled")==="1"){
-    go.hidden=false; cancelBtn.hidden=true;
-    out.textContent="Your spot is available — would you still like to participate?";
-  } else if(count>=CAP){
-    go.hidden=true; cancelBtn.hidden=true;
-    out.textContent="No more actor spots are available at this time, try again later.";
-  } else {
-    go.hidden=false; cancelBtn.hidden=true; out.textContent="";
-  }
-}
-
-async function refresh(){
-  try{ paint(await getState()); }
-  catch(e){ out.textContent="Couldn’t check the sign-ups. Try reloading."; }
-}
-
-f.addEventListener("submit",async e=>{
-  e.preventDefault();
-  go.disabled=true; out.textContent="Sending…";
-  try{
-    const {count}=await getState();
-    if(count>=CAP){
-      out.textContent="No more actor spots are available at this time, try again later.";
-      go.disabled=false; return;
-    }
-    const name=f.name.value.trim();
-    const {error}=await sb.from(T).insert({
-      name, phone:f.phone.value.trim(), device, canceled:false
-    });
-    if(error) throw error;
-
-    const fd=new FormData(f);
-    await fetch(f.action,{method:"POST",headers:{Accept:"application/json"},body:fd});
-
-    localStorage.removeItem("maze-canceled");
-    localStorage.setItem("maze-name",name);
-    f.reset(); await refresh();
-  }catch(err){ out.textContent="That didn’t send. Check your connection and try again."; }
-  go.disabled=false;
-});
-
-cancelBtn.addEventListener("click",async()=>{
-  cancelBtn.disabled=true; out.textContent="Cancelling…";
-  try{
-    const {error}=await sb.from(T).update({canceled:true})
-          .eq("device",device).eq("canceled",false);
-    if(error) throw error;
-
-    const who=localStorage.getItem("maze-name")||"A participant";
-    const fd=new FormData();
-    fd.append("_subject","Maze sign-up cancelled");
-    fd.append("name",who);
-    fd.append("message",who+" has canceled their spot in the maze");
-    await fetch(f.action,{method:"POST",headers:{Accept:"application/json"},body:fd});
-
-    localStorage.setItem("maze-canceled","1");
-    await refresh();
-  }catch(err){ out.textContent="That didn’t send. Check your connection and try again."; }
-  cancelBtn.disabled=false;
-});
-
-refresh();
-</script></body></html>
